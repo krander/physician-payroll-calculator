@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Calendar, DollarSign, Moon, Sun, Plus, Trash2, Edit2, Check } from 'lucide-react';
 
-function App() {
+const PhysicianPayrollCalculator = () => {
     const [shifts, setShifts] = useState([]);
     const [currentShift, setCurrentShift] = useState({
         date: '',
@@ -86,7 +86,7 @@ function App() {
             nightBPay,
             totalPay
         };
-    }, [shifts, rates, nightAMultiplier, nightBMultiplier]);
+    }, [shifts, rates]);
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
@@ -151,8 +151,7 @@ function App() {
                                         min="0"
                                         value={rates.baseRate}
                                         onChange={(e) => setRates({ ...rates, baseRate: e.target.value === '' ? '' : parseFloat(e.target.value) })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        style={{ appearance: 'textfield' }}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                 </div>
                                 <div>
@@ -166,8 +165,7 @@ function App() {
                                         min="0"
                                         value={rates.nightAIncrease}
                                         onChange={(e) => setRates({ ...rates, nightAIncrease: e.target.value === '' ? '' : parseFloat(e.target.value) })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        style={{ appearance: 'textfield' }}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                     <p className="text-xs text-gray-500 mt-1">${(rates.baseRate * nightAMultiplier).toFixed(2)}/hour</p>
                                 </div>
@@ -182,8 +180,7 @@ function App() {
                                         min="0"
                                         value={rates.nightBIncrease}
                                         onChange={(e) => setRates({ ...rates, nightBIncrease: e.target.value === '' ? '' : parseFloat(e.target.value) })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        style={{ appearance: 'textfield' }}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                     <p className="text-xs text-gray-500 mt-1">${(rates.baseRate * nightBMultiplier).toFixed(2)}/hour</p>
                                 </div>
@@ -201,7 +198,8 @@ function App() {
                                     type="date"
                                     value={currentShift.date}
                                     onChange={(e) => setCurrentShift({ ...currentShift, date: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                                    style={{ colorScheme: 'light', minHeight: '42px' }}
                                 />
                             </div>
                             <div className="md:col-span-1">
@@ -213,8 +211,7 @@ function App() {
                                     value={currentShift.hours}
                                     onChange={(e) => setCurrentShift({ ...currentShift, hours: e.target.value })}
                                     placeholder="8"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    style={{ appearance: 'textfield' }}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                             </div>
                             <div className="md:col-span-1">
@@ -222,7 +219,8 @@ function App() {
                                 <select
                                     value={currentShift.shiftType}
                                     onChange={(e) => setCurrentShift({ ...currentShift, shiftType: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                                    style={{ minHeight: '42px' }}
                                 >
                                     <option value="day">Day Shift</option>
                                     <option value="nightA">Night Shift A (7pm-3am)</option>
@@ -247,12 +245,14 @@ function App() {
                             <h2 className="font-semibold text-gray-800 mb-4">Your Shifts This Period</h2>
                             <div className="space-y-2">
                                 {sortedShifts.map((shift) => (
-                                    <div key={shift.id} className="flex items-center justify-between bg-white border border-gray-200 rounded-md p-4">
-                                        <div className="flex items-center space-x-4">
-                                            <Calendar className="w-5 h-5 text-gray-400" />
-                                            <span className="font-medium text-gray-800">{formatDate(shift.date)}</span>
-                                            <span className="text-gray-600">{shift.hours} hours</span>
-                                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                                    <div key={shift.id} className="flex flex-col sm:flex-row sm:items-center justify-between bg-white border border-gray-200 rounded-md p-4 gap-3">
+                                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 flex-1">
+                                            <div className="flex items-center gap-2">
+                                                <Calendar className="w-5 h-5 text-gray-400" />
+                                                <span className="font-medium text-gray-800">{formatDate(shift.date)}</span>
+                                            </div>
+                                            <span className="text-gray-600 pl-7 sm:pl-0">{shift.hours} hours</span>
+                                            <span className={`px-3 py-1 rounded-full text-sm font-medium self-start sm:self-auto ${
                                                 shift.shiftType === 'day'
                                                     ? 'bg-yellow-100 text-yellow-700'
                                                     : shift.shiftType === 'nightA'
@@ -264,7 +264,7 @@ function App() {
                                         </div>
                                         <button
                                             onClick={() => removeShift(shift.id)}
-                                            className="text-red-600 hover:text-red-800 transition"
+                                            className="text-red-600 hover:text-red-800 transition self-end sm:self-auto"
                                         >
                                             <Trash2 className="w-5 h-5" />
                                         </button>
@@ -280,19 +280,28 @@ function App() {
                         <div className="space-y-3">
                             {calculations.dayHours > 0 && (
                                 <div className="flex justify-between items-center">
-                                    <span className="text-gray-700">Day Shift ({calculations.dayHours}h × ${rates.baseRate})</span>
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+                                        <span className="text-gray-700 font-medium">Day Shift</span>
+                                        <span className="text-gray-600 text-sm">({calculations.dayHours}h × ${rates.baseRate})</span>
+                                    </div>
                                     <span className="font-semibold text-gray-800">${calculations.dayPay.toFixed(2)}</span>
                                 </div>
                             )}
                             {calculations.nightAHours > 0 && (
                                 <div className="flex justify-between items-center">
-                                    <span className="text-gray-700">Night Shift A ({calculations.nightAHours}h × ${(rates.baseRate * nightAMultiplier).toFixed(2)})</span>
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+                                        <span className="text-gray-700 font-medium">Night Shift A</span>
+                                        <span className="text-gray-600 text-sm">({calculations.nightAHours}h × ${(rates.baseRate * nightAMultiplier).toFixed(2)})</span>
+                                    </div>
                                     <span className="font-semibold text-gray-800">${calculations.nightAPay.toFixed(2)}</span>
                                 </div>
                             )}
                             {calculations.nightBHours > 0 && (
                                 <div className="flex justify-between items-center">
-                                    <span className="text-gray-700">Night Shift B ({calculations.nightBHours}h × ${(rates.baseRate * nightBMultiplier).toFixed(2)})</span>
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+                                        <span className="text-gray-700 font-medium">Night Shift B</span>
+                                        <span className="text-gray-600 text-sm">({calculations.nightBHours}h × ${(rates.baseRate * nightBMultiplier).toFixed(2)})</span>
+                                    </div>
                                     <span className="font-semibold text-gray-800">${calculations.nightBPay.toFixed(2)}</span>
                                 </div>
                             )}
@@ -320,6 +329,6 @@ function App() {
             </div>
         </div>
     );
-}
+};
 
-export default App;
+export default PhysicianPayrollCalculator;
