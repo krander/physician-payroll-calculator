@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Calendar, DollarSign, Moon, Sun, Plus, Trash2, Edit2, Check } from 'lucide-react';
 
-const PhysicianPayrollCalculator = () => {
+function App() {
     const [shifts, setShifts] = useState([]);
     const [currentShift, setCurrentShift] = useState({
         date: '',
@@ -151,7 +151,8 @@ const PhysicianPayrollCalculator = () => {
                                         min="0"
                                         value={rates.baseRate}
                                         onChange={(e) => setRates({ ...rates, baseRate: e.target.value === '' ? '' : parseFloat(e.target.value) })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        style={{ appearance: 'textfield' }}
                                     />
                                 </div>
                                 <div>
@@ -165,7 +166,8 @@ const PhysicianPayrollCalculator = () => {
                                         min="0"
                                         value={rates.nightAIncrease}
                                         onChange={(e) => setRates({ ...rates, nightAIncrease: e.target.value === '' ? '' : parseFloat(e.target.value) })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        style={{ appearance: 'textfield' }}
                                     />
                                     <p className="text-xs text-gray-500 mt-1">${(rates.baseRate * nightAMultiplier).toFixed(2)}/hour</p>
                                 </div>
@@ -180,7 +182,8 @@ const PhysicianPayrollCalculator = () => {
                                         min="0"
                                         value={rates.nightBIncrease}
                                         onChange={(e) => setRates({ ...rates, nightBIncrease: e.target.value === '' ? '' : parseFloat(e.target.value) })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        style={{ appearance: 'textfield' }}
                                     />
                                     <p className="text-xs text-gray-500 mt-1">${(rates.baseRate * nightBMultiplier).toFixed(2)}/hour</p>
                                 </div>
@@ -191,8 +194,8 @@ const PhysicianPayrollCalculator = () => {
                     {/* Shift Entry Form */}
                     <div className="bg-gray-50 rounded-lg p-6 mb-6">
                         <h2 className="font-semibold text-gray-800 mb-4">Add Shift</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <div className="md:col-span-1">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
                                 <input
                                     type="date"
@@ -202,7 +205,7 @@ const PhysicianPayrollCalculator = () => {
                                     style={{ colorScheme: 'light', minHeight: '42px' }}
                                 />
                             </div>
-                            <div className="md:col-span-1">
+                            <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Hours</label>
                                 <input
                                     type="number"
@@ -211,10 +214,11 @@ const PhysicianPayrollCalculator = () => {
                                     value={currentShift.hours}
                                     onChange={(e) => setCurrentShift({ ...currentShift, hours: e.target.value })}
                                     placeholder="8"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    style={{ appearance: 'textfield', minHeight: '42px' }}
                                 />
                             </div>
-                            <div className="md:col-span-1">
+                            <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Shift Type</label>
                                 <select
                                     value={currentShift.shiftType}
@@ -227,10 +231,11 @@ const PhysicianPayrollCalculator = () => {
                                     <option value="nightB">Night Shift B (10pm-6am)</option>
                                 </select>
                             </div>
-                            <div className="md:col-span-1 flex items-end">
+                            <div className="flex items-end">
                                 <button
                                     onClick={addShift}
                                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md flex items-center justify-center transition"
+                                    style={{ minHeight: '42px' }}
                                 >
                                     <Plus className="w-4 h-4 mr-2" />
                                     Add Shift
@@ -317,18 +322,10 @@ const PhysicianPayrollCalculator = () => {
                             </div>
                         </div>
                     </div>
-
-                    {shifts.length > 0 && (
-                        <div className="mt-6">
-                            <button className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-md transition">
-                                Submit for Approval
-                            </button>
-                        </div>
-                    )}
                 </div>
             </div>
         </div>
     );
-};
+}
 
-export default PhysicianPayrollCalculator;
+export default App;
